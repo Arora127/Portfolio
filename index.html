@@ -1,1088 +1,416 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Tushar | Web Developer</title>
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif']
-                    },
-                    colors: {
-                        primary: '#6366f1',
-                        secondary: '#8b5cf6'
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         html {
             scroll-behavior: smooth;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
-        }
-
-        /* =========================
-           CUSTOM SCROLLBAR
-        ========================== */
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #6366f1;
-            border-radius: 10px;
-        }
-
-        /* =========================
-           NAVBAR
-        ========================== */
-
-        .navbar {
-            backdrop-filter: blur(15px);
-            background: rgba(255, 255, 255, 0.85);
-        }
-
-        /* =========================
-           HERO
-        ========================== */
-
-        .hero-bg {
-            background:
-                radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15), transparent 30%),
-                radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.12), transparent 30%);
-        }
-
-        .profile-ring {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            padding: 5px;
-        }
-
-        .profile-image {
-            object-fit: cover;
-        }
-
-        /* =========================
-           GRADIENT TEXT
-        ========================== */
-
-        .gradient-text {
-            background: linear-gradient(
-                90deg,
-                #4f46e5,
-                #7c3aed
-            );
-
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* =========================
-           CARDS
-        ========================== */
-
-        .card {
-            background: white;
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
-            border-color: #c7d2fe;
-        }
-
-        /* =========================
-           SKILL TAG
-        ========================== */
-
-        .skill {
-            transition: all 0.25s ease;
-        }
-
-        .skill:hover {
-            transform: translateY(-3px);
-            background: #eef2ff;
-            border-color: #a5b4fc;
-            color: #4f46e5;
-        }
-
-        /* =========================
-           TIMELINE
-        ========================== */
-
-        .timeline-line {
-            position: absolute;
-            left: 9px;
-            top: 25px;
-            bottom: 0;
-            width: 2px;
-            background: #e2e8f0;
-        }
-
-        .timeline-dot {
-            position: relative;
-            z-index: 2;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #6366f1;
-            border: 4px solid #eef2ff;
-        }
-
-        /* =========================
-           PROJECT IMAGE
-        ========================== */
-
-        .project-icon {
-            width: 55px;
-            height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
-            background: #eef2ff;
-            color: #4f46e5;
-            font-size: 22px;
-        }
-
-        /* =========================
-           ANIMATION
-        ========================== */
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .floating {
-            animation: floating 4s ease-in-out infinite;
-        }
-
-        @keyframes floating {
-            0%, 100% {
-                transform: translateY(0);
+        /* Keep the original visual style, but make it responsive */
+        @media (max-width: 767px) {
+            .mobile-nav {
+                display: none;
             }
 
-            50% {
-                transform: translateY(-10px);
+            .mobile-nav.show {
+                display: flex;
             }
         }
-
-        /* =========================
-           MOBILE MENU
-        ========================== */
-
-        .mobile-menu {
-            display: none;
-        }
-
-        .mobile-menu.show {
-            display: block;
-        }
-
     </style>
+
+<style>
+:root{--accent:#4f46e5;--accent2:#7c3aed;--ink:#111827;--muted:#64748b;--card:rgba(255,255,255,.88)}
+html{scroll-behavior:smooth}body{background:linear-gradient(135deg,#f8fafc 0%,#eef2ff 55%,#faf5ff 100%);color:var(--ink)}
+body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:999px;filter:blur(70px);opacity:.22;pointer-events:none}
+body:before{width:280px;height:280px;background:#818cf8;top:8%;left:-100px}body:after{width:300px;height:300px;background:#c084fc;right:-120px;bottom:8%}
+header{background:rgba(255,255,255,.78)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(148,163,184,.18)!important;box-shadow:0 8px 30px rgba(15,23,42,.05)}
+section{scroll-margin-top:90px}.card,.bg-white{background:var(--card)!important;border:1px solid rgba(148,163,184,.18);box-shadow:0 12px 35px rgba(15,23,42,.06);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.card:hover,.bg-white:hover{transform:translateY(-5px);box-shadow:0 18px 45px rgba(79,70,229,.12);border-color:rgba(99,102,241,.25)}
+.hero-title{background:linear-gradient(90deg,#312e81,#4f46e5,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+a,button{transition:all .25s ease}.btn-modern{background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 25px rgba(79,70,229,.22)}.btn-modern:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(79,70,229,.3)}
+.pill{border:1px solid rgba(99,102,241,.16);background:rgba(238,242,255,.75);color:#4338ca;padding:.45rem .8rem;border-radius:999px;font-size:.82rem;font-weight:600;display:inline-block}
+.stat-modern{background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(124,58,237,.06));border:1px solid rgba(99,102,241,.14);border-radius:20px;padding:1rem 1.2rem}
+footer{background:linear-gradient(135deg,#111827,#1e1b4b)!important;color:#e5e7eb!important}
+@media(max-width:768px){.hero-title{font-size:clamp(2.4rem,11vw,4rem)}.card,.bg-white{box-shadow:0 8px 24px rgba(15,23,42,.05)}}
+</style>
 </head>
 
+<body class="antialiased">
 
-<body>
-
-    <!-- =====================================================
-         NAVIGATION
-    ====================================================== -->
-
-    <header class="navbar fixed top-0 left-0 w-full z-50 border-b border-slate-200">
-
-        <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-
-            <!-- Logo -->
-
-            <a href="#home"
-                class="text-2xl font-extrabold gradient-text">
-                Tushar<span class="text-slate-800">.</span>
-            </a>
-
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md p-4 sticky top-0 z-50">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a href="#about" class="text-2xl font-bold text-indigo-600">Tushar</a>
 
             <!-- Desktop Navigation -->
-
-            <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
-
-                <li>
-                    <a href="#home"
-                        class="text-slate-600 hover:text-indigo-600 transition">
-                        Home
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#about"
-                        class="text-slate-600 hover:text-indigo-600 transition">
-                        About
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#experience"
-                        class="text-slate-600 hover:text-indigo-600 transition">
-                        Experience
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#skills"
-                        class="text-slate-600 hover:text-indigo-600 transition">
-                        Skills
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#projects"
-                        class="text-slate-600 hover:text-indigo-600 transition">
-                        Projects
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#education"
-                        class="text-slate-600 hover:text-indigo-600 transition">
-                        Education
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#contact"
-                        class="bg-indigo-600 text-white px-5 py-2.5 rounded-full hover:bg-indigo-700 transition">
-                        Contact
-                    </a>
-                </li>
-
+            <ul class="hidden md:flex space-x-6">
+                <li><a href="#about" class="text-gray-700 hover:text-indigo-600 transition duration-300">About</a></li>
+                <li><a href="#experience" class="text-gray-700 hover:text-indigo-600 transition duration-300">Experience</a></li>
+                <li><a href="#skills" class="text-gray-700 hover:text-indigo-600 transition duration-300">Skills</a></li>
+                <li><a href="#projects" class="text-gray-700 hover:text-indigo-600 transition duration-300">Projects</a></li>
+                <li><a href="#education" class="text-gray-700 hover:text-indigo-600 transition duration-300">Education</a></li>
+                <li><a href="#contact" class="text-gray-700 hover:text-indigo-600 transition duration-300">Contact</a></li>
             </ul>
 
-
-            <!-- Mobile Button -->
-
-            <button id="menuBtn"
-                class="md:hidden text-xl text-slate-700">
-
-                <i class="fa-solid fa-bars"></i>
-
+            <!-- Mobile Menu Button -->
+            <button id="menu-button"
+                class="md:hidden text-gray-700 text-2xl"
+                aria-label="Open navigation menu">
+                &#9776;
             </button>
-
         </nav>
 
-
         <!-- Mobile Navigation -->
-
-        <div id="mobileMenu"
-            class="mobile-menu md:hidden border-t border-slate-200 bg-white">
-
-            <div class="px-6 py-5 flex flex-col gap-4">
-
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#experience">Experience</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#education">Education</a>
-                <a href="#contact">Contact</a>
-
-            </div>
-
-        </div>
-
+        <ul id="mobile-nav"
+            class="mobile-nav hidden flex-col gap-4 mt-4 pt-4 border-t border-gray-200 md:hidden">
+            <li><a href="#about" class="block text-gray-700 hover:text-indigo-600">About</a></li>
+            <li><a href="#experience" class="block text-gray-700 hover:text-indigo-600">Experience</a></li>
+            <li><a href="#skills" class="block text-gray-700 hover:text-indigo-600">Skills</a></li>
+            <li><a href="#projects" class="block text-gray-700 hover:text-indigo-600">Projects</a></li>
+            <li><a href="#education" class="block text-gray-700 hover:text-indigo-600">Education</a></li>
+            <li><a href="#contact" class="block text-gray-700 hover:text-indigo-600">Contact</a></li>
+        </ul>
     </header>
 
+    <main class="container mx-auto px-4 sm:px-6 lg:px-10">
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
+        <!-- Hero / About Section -->
+        <section id="about"
+            class="flex flex-col lg:flex-row items-center justify-between py-16 lg:py-24 gap-10 lg:gap-12 min-h-[calc(100vh-80px)]">
 
-    <section id="home"
-        class="hero-bg min-h-screen pt-32 pb-20 flex items-center">
+            <div class="w-full lg:w-1/2 text-center lg:text-left animate-fade-in">
+                <p class="text-indigo-600 font-semibold mb-3">WEB DEVELOPER</p>
 
-        <div
-            class="max-w-6xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-16 items-center">
-
-
-            <!-- Hero Text -->
-
-            <div class="reveal">
-
-                <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 text-sm font-medium mb-6">
-
-                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
-
-                    Available for Opportunities
-
-                </div>
-
-
-                <p class="text-slate-500 font-medium mb-3">
-                    Hello, I'm
-                </p>
-
-
-                <h1
-                    class="text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 leading-tight">
-
-                    Tushar
-
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-5">
+                    Hi, I'm <span class="text-indigo-600">Tushar</span>
                 </h1>
 
-
-                <h2
-                    class="text-2xl md:text-3xl font-bold gradient-text mt-3">
-
-                    Web Developer
-
-                </h2>
-
-
-                <p
-                    class="text-slate-600 leading-8 mt-6 max-w-xl">
-
-                    Web Developer with hands-on experience in designing
-                    and customizing Shopify and WordPress websites.
-                    Skilled in HTML, CSS, JavaScript, PHP, MySQL,
-                    Shopify and WordPress.
-
+                <p class="text-base sm:text-lg text-gray-700 mb-8 max-w-2xl mx-auto lg:mx-0 leading-7">
+                    Web Developer with hands-on experience in designing and customizing
+                    Shopify and WordPress websites. Skilled in HTML, CSS, JavaScript,
+                    PHP, MySQL, Shopify, WordPress and WooCommerce. Experienced in
+                    creating responsive websites and working on e-commerce projects
+                    for Indian and international clients.
                 </p>
 
-
-                <!-- Buttons -->
-
-                <div class="flex flex-wrap gap-4 mt-8">
-
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="#projects"
-                        class="px-7 py-3.5 bg-indigo-600 text-white rounded-full font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
-
+                        class="bg-indigo-600 text-white px-7 py-3 rounded-full text-base font-semibold hover:bg-indigo-700 transition duration-300 shadow-lg">
                         View Projects
-
-                        <i class="fa-solid fa-arrow-right ml-2"></i>
-
                     </a>
-
 
                     <a href="#contact"
-                        class="px-7 py-3.5 border border-slate-300 bg-white text-slate-700 rounded-full font-semibold hover:border-indigo-500 hover:text-indigo-600 transition">
-
-                        Contact Me
-
+                        class="border border-indigo-600 text-indigo-600 px-7 py-3 rounded-full text-base font-semibold hover:bg-indigo-50 transition duration-300">
+                        Get in Touch
                     </a>
-
                 </div>
-
-
-                <!-- Social Links -->
-
-                <div class="flex items-center gap-5 mt-8">
-
-                    <!-- ADD YOUR LINKEDIN LINK -->
-
-                    <a href="YOUR_LINKEDIN_LINK"
-                        target="_blank"
-                        class="text-slate-500 hover:text-indigo-600 text-xl transition">
-
-                        <i class="fa-brands fa-linkedin"></i>
-
-                    </a>
-
-
-                    <!-- ADD YOUR GITHUB LINK -->
-
-                    <a href="YOUR_GITHUB_LINK"
-                        target="_blank"
-                        class="text-slate-500 hover:text-indigo-600 text-xl transition">
-
-                        <i class="fa-brands fa-github"></i>
-
-                    </a>
-
-
-                    <!-- ADD YOUR EMAIL -->
-
-                    <a href="mailto:YOUR_EMAIL"
-                        class="text-slate-500 hover:text-indigo-600 text-xl transition">
-
-                        <i class="fa-solid fa-envelope"></i>
-
-                    </a>
-
-                </div>
-
             </div>
-
 
             <!-- Profile Image -->
+            <div class="w-full lg:w-1/2 flex justify-center items-center animate-fade-in"
+                style="animation-delay: 0.2s;">
 
-            <div
-                class="flex justify-center lg:justify-end reveal">
+                <div class="w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full shadow-xl overflow-hidden">
+                    <img src="Img.png"
+                        alt="Tushar - Web Developer"
+                        class="object-cover w-full h-full">
+                </div>
+            </div>
+        </section>
 
-                <div class="relative">
 
-                    <!-- Decorative background -->
+        <!-- Experience Section -->
+        <section id="experience" class="py-16 lg:py-24 scroll-reveal">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-gray-900 mb-12">
+                Experience
+            </h2>
 
-                    <div
-                        class="absolute -inset-6 bg-indigo-100 rounded-[40px] rotate-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-5">
+                        <div>
+                            <p class="text-sm text-gray-500">11/2025 – Present</p>
+                            <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mt-1">
+                                Web Developer
+                            </h3>
+                            <p class="text-gray-700 font-medium mt-1">
+                                G-TECH INFO INDIA PRIVATE LIMITED
+                            </p>
+                        </div>
                     </div>
 
-
-                    <div
-                        class="relative w-72 h-80 md:w-80 md:h-96 rounded-[35px] overflow-hidden profile-ring shadow-2xl floating">
-
-                        <!-- CHANGE IMAGE NAME IF REQUIRED -->
-
-                        <img
-                            src="Img.jpg"
-                            alt="Tushar - Web Developer"
-                            class="profile-image w-full h-full bg-white">
-
-                    </div>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 leading-6">
+                        <li>Designed and customized Shopify websites for Indian and international clients.</li>
+                        <li>Worked on 30+ e-commerce stores, including fashion, lifestyle and other online stores.</li>
+                        <li>Handled responsive layouts, product management, theme customization and app integrations.</li>
+                        <li>Developed responsive websites and customized themes according to client requirements.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
 
-                    <!-- Experience Badge -->
+        <!-- Skills Section -->
+        <section id="skills" class="py-16 lg:py-24 scroll-reveal">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-gray-900 mb-12">
+                My Skills
+            </h2>
 
-                    <div
-                        class="absolute -bottom-6 -left-8 bg-white shadow-xl rounded-2xl px-5 py-4 border border-slate-100">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 
-                        <p class="text-2xl font-extrabold text-indigo-600">
-                            1+
-                        </p>
-
-                        <p class="text-xs text-slate-500">
-                            Year Experience
-                        </p>
-
-                    </div>
-
-
-                    <!-- Developer Badge -->
-
-                    <div
-                        class="absolute -top-5 -right-6 bg-white shadow-xl rounded-2xl px-5 py-4 border border-slate-100">
-
-                        <i class="fa-solid fa-code text-indigo-600 text-xl"></i>
-
-                        <p class="text-xs font-semibold mt-1">
-                            Web Developer
-                        </p>
-
-                    </div>
-
+                <!-- Front-End -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-4">Front-End</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>JavaScript</li>
+                        <li>jQuery</li>
+                        <li>Bootstrap</li>
+                    </ul>
                 </div>
 
+                <!-- Back-End -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-4">Back-End & Database</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>PHP</li>
+                        <li>MySQL</li>
+                    </ul>
+                </div>
+
+                <!-- Programming -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-4">Programming</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>C</li>
+                        <li>C++</li>
+                    </ul>
+                </div>
+
+                <!-- CMS -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-4">CMS & E-Commerce</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>WordPress</li>
+                        <li>Shopify</li>
+                        <li>WooCommerce</li>
+                    </ul>
+                </div>
+
+                <!-- Office -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-4">Office Tools</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>MS Word</li>
+                        <li>MS Excel</li>
+                        <li>MS PowerPoint</li>
+                    </ul>
+                </div>
+
+                <!-- Web / Responsive -->
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-4">Web & Responsive</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>Responsive Design</li>
+                        <li>Mobile-first Design</li>
+                        <li>Flexbox</li>
+                        <li>CSS Grid</li>
+                        <li>Media Queries</li>
+                    </ul>
+                </div>
             </div>
-
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- =====================================================
-         ABOUT
-    ====================================================== -->
+        <!-- Projects Section -->
+        <section id="projects" class="py-16 lg:py-24 scroll-reveal">
 
-    <section id="about" class="py-24 bg-white">
+            <div class="max-w-6xl mx-auto">
 
-        <div class="max-w-6xl mx-auto px-6">
-
-            <div class="text-center reveal">
-
-                <p class="text-indigo-600 font-semibold uppercase tracking-wider text-sm">
-                    About Me
-                </p>
-
-                <h2 class="text-4xl font-extrabold text-slate-900 mt-2">
-                    Building Websites That Work
-                </h2>
-
-                <p class="text-slate-500 max-w-2xl mx-auto mt-5 leading-7">
-                    I am a Web Developer focused on creating responsive,
-                    user-friendly and functional websites using modern
-                    frontend technologies, PHP, MySQL, WordPress and Shopify.
-                </p>
-
-            </div>
-
-
-            <div class="grid md:grid-cols-3 gap-6 mt-14">
-
-
-                <div class="card rounded-2xl p-7 reveal">
-
-                    <div class="project-icon mb-5">
-                        <i class="fa-solid fa-code"></i>
-                    </div>
-
-                    <h3 class="font-bold text-xl">
-                        Frontend Development
-                    </h3>
-
-                    <p class="text-slate-500 text-sm leading-6 mt-3">
-                        Creating responsive interfaces using HTML5,
-                        CSS3, JavaScript, jQuery and Bootstrap.
+                <div class="text-center mb-12">
+                    <p class="text-indigo-600 font-semibold uppercase tracking-wider text-sm">
+                        Selected Work
                     </p>
 
-                </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mt-2">
+                        30+ E-Commerce Stores
+                    </h2>
 
-
-                <div class="card rounded-2xl p-7 reveal">
-
-                    <div class="project-icon mb-5">
-                        <i class="fa-solid fa-server"></i>
-                    </div>
-
-                    <h3 class="font-bold text-xl">
-                        Backend Development
-                    </h3>
-
-                    <p class="text-slate-500 text-sm leading-6 mt-3">
-                        Building dynamic websites and database-driven
-                        applications using PHP and MySQL.
+                    <p class="text-gray-600 max-w-2xl mx-auto mt-5 leading-7">
+                        Worked on 30+ e-commerce stores for Indian and international clients,
+                        covering different industries and product categories. Due to client
+                        confidentiality, individual store names are not displayed.
                     </p>
-
                 </div>
 
 
-                <div class="card rounded-2xl p-7 reveal">
+                <!-- Main Work Showcase -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
 
-                    <div class="project-icon mb-5">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </div>
+                    <!-- Top summary -->
+                    <div class="p-6 sm:p-8 lg:p-10 border-b border-gray-100">
 
-                    <h3 class="font-bold text-xl">
-                        CMS & E-Commerce
-                    </h3>
-
-                    <p class="text-slate-500 text-sm leading-6 mt-3">
-                        Working with WordPress, Shopify and WooCommerce
-                        for business and e-commerce websites.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         EXPERIENCE
-    ====================================================== -->
-
-    <section id="experience" class="py-24 bg-slate-50">
-
-        <div class="max-w-6xl mx-auto px-6">
-
-            <div class="reveal mb-14">
-
-                <p class="text-indigo-600 font-semibold uppercase tracking-wider text-sm">
-                    Experience
-                </p>
-
-                <h2 class="text-4xl font-extrabold text-slate-900 mt-2">
-                    Professional Experience
-                </h2>
-
-            </div>
-
-
-            <div class="relative pl-8">
-
-                <div class="timeline-line"></div>
-
-
-                <!-- Experience -->
-
-                <div class="relative mb-10 reveal">
-
-                    <div class="timeline-dot absolute -left-[39px] top-1"></div>
-
-
-                    <div class="card rounded-2xl p-7">
-
-                        <div
-                            class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
                             <div>
-
-                                <p class="text-indigo-600 font-semibold text-sm">
-                                    11/2025 – Present
+                                <p class="text-sm text-gray-500 uppercase tracking-wider mb-2">
+                                    E-Commerce Development
                                 </p>
 
-                                <h3 class="text-2xl font-bold text-slate-900 mt-1">
-                                    Web Developer
+                                <h3 class="text-2xl sm:text-3xl font-bold text-gray-900">
+                                    Multi-Category Store Development
                                 </h3>
 
-                                <p class="text-slate-500 font-medium mt-1">
-                                    G-TECH INFO INDIA PRIVATE LIMITED
+                                <p class="text-gray-600 mt-3 max-w-2xl leading-7">
+                                    Developed and customized online stores with responsive layouts,
+                                    product management, theme customization, app integrations and
+                                    client-specific requirements.
                                 </p>
-
                             </div>
 
+                            <div class="flex-shrink-0">
+                                <div class="w-24 h-24 rounded-2xl bg-indigo-50 flex flex-col items-center justify-center">
+                                    <span class="text-3xl font-extrabold text-indigo-600">30+</span>
+                                    <span class="text-xs font-medium text-gray-500">Stores</span>
+                                </div>
+                            </div>
 
-                            <span
-                                class="px-4 py-2 bg-green-50 text-green-600 rounded-full text-xs font-semibold w-fit">
+                        </div>
+                    </div>
 
-                                Current Position
 
+                    <!-- Categories -->
+                    <div class="p-6 sm:p-8 lg:p-10">
+
+                        <p class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">
+                            Store Categories
+                        </p>
+
+                        <div class="flex flex-wrap gap-3">
+
+                            <span class="px-4 py-2.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium">
+                                E-Commerce
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-purple-50 text-purple-700 text-sm font-medium">
+                                Ayurvedic
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-pink-50 text-pink-700 text-sm font-medium">
+                                Grooming
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-green-50 text-green-700 text-sm font-medium">
+                                Herbal
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
+                                Informatics
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-orange-50 text-orange-700 text-sm font-medium">
+                                Toys & Children
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-yellow-50 text-yellow-700 text-sm font-medium">
+                                Lifestyle
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-red-50 text-red-700 text-sm font-medium">
+                                Fashion
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-cyan-50 text-cyan-700 text-sm font-medium">
+                                Health & Wellness
+                            </span>
+
+                            <span class="px-4 py-2.5 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">
+                                And More
                             </span>
 
                         </div>
 
-
-                        <ul class="mt-6 space-y-3 text-slate-600 text-sm">
-
-                            <li class="flex gap-3">
-                                <i class="fa-solid fa-check text-indigo-500 mt-1"></i>
-                                Designed and customized Shopify websites for Indian and international clients.
-                            </li>
-
-                            <li class="flex gap-3">
-                                <i class="fa-solid fa-check text-indigo-500 mt-1"></i>
-                                Worked on e-commerce, Shopify, target builds, fashion and lifestyle stores.
-                            </li>
-
-                            <li class="flex gap-3">
-                                <i class="fa-solid fa-check text-indigo-500 mt-1"></i>
-                                Integrated third-party apps and customized themes according to client requirements.
-                            </li>
-
-                            <li class="flex gap-3">
-                                <i class="fa-solid fa-check text-indigo-500 mt-1"></i>
-                                Developed responsive layouts and maintained client websites.
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         SKILLS
-    ====================================================== -->
-
-    <section id="skills" class="py-24 bg-white">
-
-        <div class="max-w-6xl mx-auto px-6">
-
-            <div class="text-center reveal">
-
-                <p class="text-indigo-600 font-semibold uppercase tracking-wider text-sm">
-                    My Skills
-                </p>
-
-                <h2 class="text-4xl font-extrabold text-slate-900 mt-2">
-                    Technologies I Work With
-                </h2>
-
-            </div>
-
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-14">
-
-
-                <!-- Frontend -->
-
-                <div class="card rounded-2xl p-6 reveal">
-
-                    <div class="project-icon mb-5">
-                        <i class="fa-solid fa-display"></i>
-                    </div>
-
-                    <h3 class="font-bold text-lg mb-4">
-                        Frontend
-                    </h3>
-
-                    <div class="flex flex-wrap gap-2">
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            HTML5
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            CSS3
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            JavaScript
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            jQuery
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            Bootstrap
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Backend -->
-
-                <div class="card rounded-2xl p-6 reveal">
-
-                    <div class="project-icon mb-5">
-                        <i class="fa-solid fa-database"></i>
-                    </div>
-
-                    <h3 class="font-bold text-lg mb-4">
-                        Backend
-                    </h3>
-
-                    <div class="flex flex-wrap gap-2">
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            PHP
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            MySQL
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Programming -->
-
-                <div class="card rounded-2xl p-6 reveal">
-
-                    <div class="project-icon mb-5">
-                        <i class="fa-solid fa-terminal"></i>
-                    </div>
-
-                    <h3 class="font-bold text-lg mb-4">
-                        Programming
-                    </h3>
-
-                    <div class="flex flex-wrap gap-2">
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            C
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            C++
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- CMS -->
-
-                <div class="card rounded-2xl p-6 reveal">
-
-                    <div class="project-icon mb-5">
-                        <i class="fa-brands fa-wordpress"></i>
-                    </div>
-
-                    <h3 class="font-bold text-lg mb-4">
-                        CMS & E-Commerce
-                    </h3>
-
-                    <div class="flex flex-wrap gap-2">
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            WordPress
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            Shopify
-                        </span>
-
-                        <span class="skill border rounded-lg px-3 py-2 text-sm">
-                            WooCommerce
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         PROJECTS
-    ====================================================== -->
-
-    <section id="projects" class="py-24 bg-slate-50">
-
-        <div class="max-w-6xl mx-auto px-6">
-
-            <div class="reveal">
-
-                <p class="text-indigo-600 font-semibold uppercase tracking-wider text-sm">
-                    Portfolio
-                </p>
-
-                <h2 class="text-4xl font-extrabold text-slate-900 mt-2">
-                    Featured Projects
-                </h2>
-
-                <p class="text-slate-500 mt-4">
-                    A selection of websites and applications developed using
-                    different technologies.
-                </p>
-
-            </div>
-
-
-            <div class="grid md:grid-cols-2 gap-7 mt-12">
-
-
-                <!-- Project 1 -->
-
-                <div class="card rounded-2xl p-8 reveal">
-
-                    <div class="flex justify-between items-start">
-
-                        <div class="project-icon">
-
-                            <i class="fa-solid fa-cart-shopping"></i>
-
-                        </div>
-
-
-                        <!-- ADD PROJECT LINK -->
-
-                        <a href="YOUR_PROJECT_LINK"
-                            target="_blank"
-                            class="text-slate-400 hover:text-indigo-600 transition">
-
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                        </a>
-
                     </div>
 
 
-                    <h3 class="text-2xl font-bold text-slate-900 mt-6">
-                        E-Commerce Website
-                    </h3>
+                    <!-- Technologies -->
+                    <div class="bg-gray-50 p-6 sm:p-8 lg:p-10">
 
-                    <p class="text-sm text-indigo-600 font-medium mt-1">
-                        WordPress & Shopify
-                    </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
 
+                            <div>
+                                <p class="text-xs uppercase tracking-wider text-gray-500 mb-2">
+                                    Platforms
+                                </p>
 
-                    <p class="text-slate-500 leading-7 mt-4">
-                        Customized and managed e-commerce stores with
-                        responsive design, product management, theme
-                        customization and app integrations.
-                    </p>
+                                <p class="font-semibold text-gray-800">
+                                    Shopify · WordPress
+                                </p>
+                            </div>
 
+                            <div>
+                                <p class="text-xs uppercase tracking-wider text-gray-500 mb-2">
+                                    E-Commerce
+                                </p>
 
-                    <div class="flex flex-wrap gap-2 mt-6">
+                                <p class="font-semibold text-gray-800">
+                                    WooCommerce · Shopify
+                                </p>
+                            </div>
 
-                        <span class="px-3 py-1 bg-slate-100 rounded-full text-xs">
-                            WordPress
-                        </span>
+                            <div>
+                                <p class="text-xs uppercase tracking-wider text-gray-500 mb-2">
+                                    Work
+                                </p>
 
-                        <span class="px-3 py-1 bg-slate-100 rounded-full text-xs">
-                            Shopify
-                        </span>
+                                <p class="font-semibold text-gray-800">
+                                    Themes · Products · Apps
+                                </p>
+                            </div>
 
-                        <span class="px-3 py-1 bg-slate-100 rounded-full text-xs">
-                            WooCommerce
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Project 2 -->
-
-                <div class="card rounded-2xl p-8 reveal">
-
-                    <div class="flex justify-between items-start">
-
-                        <div class="project-icon">
-
-                            <i class="fa-solid fa-book-open"></i>
-
-                        </div>
-
-
-                        <!-- ADD PROJECT LINK -->
-
-                        <a href="YOUR_PROJECT_LINK"
-                            target="_blank"
-                            class="text-slate-400 hover:text-indigo-600 transition">
-
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-                        </a>
-
-                    </div>
-
-
-                    <h3 class="text-2xl font-bold text-slate-900 mt-6">
-                        Bookstore Website
-                    </h3>
-
-                    <p class="text-sm text-indigo-600 font-medium mt-1">
-                        PHP & MySQL
-                    </p>
-
-
-                    <p class="text-slate-500 leading-7 mt-4">
-                        Dynamic PHP and SQL based bookstore website featuring
-                        user login, book listing, shopping cart and database
-                        driven functionality.
-                    </p>
-
-
-                    <div class="flex flex-wrap gap-2 mt-6">
-
-                        <span class="px-3 py-1 bg-slate-100 rounded-full text-xs">
-                            PHP
-                        </span>
-
-                        <span class="px-3 py-1 bg-slate-100 rounded-full text-xs">
-                            MySQL
-                        </span>
-
-                        <span class="px-3 py-1 bg-slate-100 rounded-full text-xs">
-                            HTML
-                        </span>
-
-                        <span class="px-3 py-1 bg-slate-100 rounded-full text-xs">
-                            CSS
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         EDUCATION
-    ====================================================== -->
-
-    <section id="education" class="py-24 bg-white">
-
-        <div class="max-w-6xl mx-auto px-6">
-
-            <div class="reveal mb-14">
-
-                <p class="text-indigo-600 font-semibold uppercase tracking-wider text-sm">
-                    Education
-                </p>
-
-                <h2 class="text-4xl font-extrabold text-slate-900 mt-2">
-                    Academic Background
-                </h2>
-
-            </div>
-
-
-            <div class="grid md:grid-cols-2 gap-6">
-
-
-                <!-- BCA -->
-
-                <div class="card rounded-2xl p-7 reveal">
-
-                    <div class="flex justify-between items-start">
-
-                        <div>
-
-                            <p class="text-indigo-600 font-bold">
-                                2027
-                            </p>
-
-                            <h3 class="text-xl font-bold mt-2">
-                                BCA
-                            </h3>
-
-                            <p class="text-slate-500 mt-1">
-                                Bachelor of Computer Applications
-                            </p>
-
-                            <p class="text-sm text-slate-400 mt-3">
-                                IGNOU
-                            </p>
-
-                        </div>
-
-
-                        <div class="project-icon">
-                            <i class="fa-solid fa-graduation-cap"></i>
                         </div>
 
                     </div>
@@ -1090,103 +418,81 @@
                 </div>
 
 
-                <!-- 12th -->
+                <!-- Other Development Work -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-8">
 
-                <div class="card rounded-2xl p-7 reveal">
+                    <!-- PHP / MySQL -->
+                    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-100
+                                hover:shadow-2xl transition duration-300">
 
-                    <div class="flex justify-between items-start">
+                        <div class="flex items-start justify-between gap-4">
 
-                        <div>
+                            <div>
+                                <p class="text-sm text-indigo-600 font-semibold uppercase tracking-wider">
+                                    PHP + MySQL
+                                </p>
 
-                            <p class="text-indigo-600 font-bold">
-                                2024
-                            </p>
+                                <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">
+                                    Web Applications
+                                </h3>
+                            </div>
 
-                            <h3 class="text-xl font-bold mt-2">
-                                Higher Secondary (10+2)
-                            </h3>
-
-                            <p class="text-slate-500 mt-1">
-                                CBSE
-                            </p>
-
-                            <p class="text-sm text-slate-400 mt-3">
-                                S.K. Rosary Public School
-                            </p>
-
-                        </div>
-
-
-                        <div class="project-icon">
-                            <i class="fa-solid fa-school"></i>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- 10th -->
-
-                <div class="card rounded-2xl p-7 reveal">
-
-                    <div class="flex justify-between items-start">
-
-                        <div>
-
-                            <p class="text-indigo-600 font-bold">
-                                2022
-                            </p>
-
-                            <h3 class="text-xl font-bold mt-2">
-                                Secondary (10th)
-                            </h3>
-
-                            <p class="text-slate-500 mt-1">
-                                CBSE
-                            </p>
-
-                            <p class="text-sm text-slate-400 mt-3">
-                                S.K. Rosary Public School
-                            </p>
+                            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600
+                                        flex items-center justify-center text-xl flex-shrink-0">
+                                &lt;/&gt;
+                            </div>
 
                         </div>
 
+                        <p class="text-gray-600 mt-5 leading-7">
+                            Multiple dynamic web applications with database-driven features,
+                            authentication, forms, CRUD operations, product management and
+                            responsive interfaces.
+                        </p>
 
-                        <div class="project-icon">
-                            <i class="fa-solid fa-book"></i>
+                        <div class="flex flex-wrap gap-2 mt-5">
+                            <span class="text-xs bg-gray-100 px-3 py-1.5 rounded-full">PHP</span>
+                            <span class="text-xs bg-gray-100 px-3 py-1.5 rounded-full">MySQL</span>
+                            <span class="text-xs bg-gray-100 px-3 py-1.5 rounded-full">JavaScript</span>
+                            <span class="text-xs bg-gray-100 px-3 py-1.5 rounded-full">HTML/CSS</span>
                         </div>
 
                     </div>
 
-                </div>
 
+                    <!-- WordPress -->
+                    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-100
+                                hover:shadow-2xl transition duration-300">
 
-                <!-- Diploma -->
+                        <div class="flex items-start justify-between gap-4">
 
-                <div class="card rounded-2xl p-7 reveal">
+                            <div>
+                                <p class="text-sm text-indigo-600 font-semibold uppercase tracking-wider">
+                                    WordPress
+                                </p>
 
-                    <div class="flex justify-between items-start">
+                                <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mt-2">
+                                    Website Development
+                                </h3>
+                            </div>
 
-                        <div>
-
-                            <p class="text-indigo-600 font-bold">
-                                Diploma
-                            </p>
-
-                            <h3 class="text-xl font-bold mt-2">
-                                Website Engineering
-                            </h3>
-
-                            <p class="text-slate-500 mt-1">
-                                Full Stack Development
-                            </p>
+                            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600
+                                        flex items-center justify-center text-xl flex-shrink-0">
+                                WP
+                            </div>
 
                         </div>
 
+                        <p class="text-gray-600 mt-5 leading-7">
+                            Customized responsive WordPress websites and e-commerce solutions
+                            with theme customization, content management and WooCommerce
+                            functionality.
+                        </p>
 
-                        <div class="project-icon">
-                            <i class="fa-solid fa-laptop-code"></i>
+                        <div class="flex flex-wrap gap-2 mt-5">
+                            <span class="text-xs bg-gray-100 px-3 py-1.5 rounded-full">WordPress</span>
+                            <span class="text-xs bg-gray-100 px-3 py-1.5 rounded-full">WooCommerce</span>
+                            <span class="text-xs bg-gray-100 px-3 py-1.5 rounded-full">Responsive UI</span>
                         </div>
 
                     </div>
@@ -1195,230 +501,176 @@
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- =====================================================
-         CONTACT
-    ====================================================== -->
-
-    <section id="contact"
-        class="py-24 bg-slate-900 text-white">
-
-        <div class="max-w-5xl mx-auto px-6 text-center reveal">
-
-            <p class="text-indigo-400 font-semibold uppercase tracking-wider text-sm">
-                Contact
-            </p>
-
-
-            <h2 class="text-4xl md:text-5xl font-extrabold mt-3">
-                Let's Work Together
+        <!-- Education Section -->
+        <section id="education" class="py-16 lg:py-24 scroll-reveal">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-gray-900 mb-12">
+                Education & Training
             </h2>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
 
-            <p class="text-slate-400 max-w-2xl mx-auto mt-5 leading-7">
-
-                Interested in working together or have an opportunity?
-                Feel free to get in touch.
-
-            </p>
-
-
-            <div
-                class="grid sm:grid-cols-3 gap-5 mt-12 text-left">
-
-
-                <!-- EMAIL -->
-
-                <a href="mailto:YOUR_EMAIL"
-                    class="bg-slate-800 rounded-2xl p-6 hover:bg-slate-700 transition">
-
-                    <i class="fa-solid fa-envelope text-indigo-400 text-xl"></i>
-
-                    <p class="text-sm text-slate-400 mt-4">
-                        Email
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-3">
+                        BCA
+                    </h3>
+                    <p class="text-gray-700 mb-2">
+                        Bachelor of Computer Applications
                     </p>
-
-                    <p class="font-medium mt-1 break-all">
-                        YOUR_EMAIL
+                    <p class="text-gray-500">
+                        IGNOU • Expected 2027
                     </p>
+                </div>
 
-                </a>
-
-
-                <!-- PHONE -->
-
-                <a href="tel:YOUR_PHONE"
-                    class="bg-slate-800 rounded-2xl p-6 hover:bg-slate-700 transition">
-
-                    <i class="fa-solid fa-phone text-indigo-400 text-xl"></i>
-
-                    <p class="text-sm text-slate-400 mt-4">
-                        Phone
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-3">
+                        Higher Secondary (10+2)
+                    </h3>
+                    <p class="text-gray-700 mb-2">
+                        CBSE
                     </p>
-
-                    <p class="font-medium mt-1">
-                        YOUR_PHONE
+                    <p class="text-gray-500">
+                        2024
                     </p>
+                </div>
 
-                </a>
-
-
-                <!-- LOCATION -->
-
-                <div
-                    class="bg-slate-800 rounded-2xl p-6">
-
-                    <i class="fa-solid fa-location-dot text-indigo-400 text-xl"></i>
-
-                    <p class="text-sm text-slate-400 mt-4">
-                        Location
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-3">
+                        Secondary (10th)
+                    </h3>
+                    <p class="text-gray-700 mb-2">
+                        CBSE
                     </p>
-
-                    <p class="font-medium mt-1">
-                        Delhi, India
+                    <p class="text-gray-500">
+                        2022
                     </p>
+                </div>
 
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2">
+                    <h3 class="text-xl sm:text-2xl font-semibold text-indigo-600 mb-3">
+                        Diploma in Website Engineering
+                    </h3>
+                    <p class="text-gray-700 mb-2">
+                        Full Stack Development
+                    </p>
                 </div>
 
             </div>
+        </section>
 
 
-            <!-- SOCIAL -->
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 lg:py-24 scroll-reveal">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-gray-900 mb-12">
+                Get in Touch
+            </h2>
 
-            <div class="flex justify-center gap-5 mt-10">
+            <div class="max-w-xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg">
 
-                <a href="YOUR_LINKEDIN_LINK"
-                    target="_blank"
-                    class="w-11 h-11 rounded-full bg-slate-800 flex items-center justify-center hover:bg-indigo-600 transition">
+                <p class="text-base sm:text-lg text-gray-700 mb-6 text-center">
+                    I'm open to new opportunities, collaborations and web development projects.
+                    Feel free to reach out!
+                </p>
 
-                    <i class="fa-brands fa-linkedin"></i>
+                <div class="flex flex-col space-y-4">
 
-                </a>
+                    <!-- Add your email manually -->
+                    <div class="flex items-center gap-4">
+                        <span class="text-indigo-600 text-2xl">&#9993;</span>
+                        <a href="mailto:aroratushar139@gmail.com"
+                            class="text-gray-700 hover:text-indigo-600 transition duration-300 text-base sm:text-lg break-all">
+                            aroratushar139@gmail.com
+                        </a>
+                    </div>
 
+                    <!-- Add your phone manually -->
+                    <div class="flex items-center gap-4">
+                        <span class="text-indigo-600 text-2xl">&#128222;</span>
+                        <a href="tel:9643780091"
+                            class="text-gray-700 hover:text-indigo-600 transition duration-300 text-base sm:text-lg">
+                            9643780091
+                        </a>
+                    </div>
 
-                <a href="YOUR_GITHUB_LINK"
-                    target="_blank"
-                    class="w-11 h-11 rounded-full bg-slate-800 flex items-center justify-center hover:bg-indigo-600 transition">
+                    <!-- Add your address manually -->
+                    <div class="flex items-start gap-4">
+                        <span class="text-indigo-600 text-2xl">&#127961;</span>
+                        <p class="text-gray-700 text-base sm:text-lg">
+                            Shalimar Bagh, Delhi-110088
+                        </p>
+                    </div>
 
-                    <i class="fa-brands fa-github"></i>
-
-                </a>
-
-
-                <a href="mailto:YOUR_EMAIL"
-                    class="w-11 h-11 rounded-full bg-slate-800 flex items-center justify-center hover:bg-indigo-600 transition">
-
-                    <i class="fa-solid fa-envelope"></i>
-
-                </a>
-
+                </div>
             </div>
+        </section>
 
-        </div>
-
-    </section>
+    </main>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
-    <footer class="bg-slate-950 text-slate-500 py-7">
-
-        <div
-            class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3">
-
-            <p class="text-sm">
-                © 2026 Tushar. All rights reserved.
-            </p>
-
-            <p class="text-sm">
-                Designed & Developed by
-                <span class="text-indigo-400 font-medium">
-                    Tushar
-                </span>
-            </p>
-
-        </div>
-
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-6 text-center text-sm">
+        <p>
+            Copyright &copy; <span id="current-year"></span> Tushar. All rights reserved.
+        </p>
+        <p class="mt-2">
+            Designed and Developed with &#x2764;&#xfe0f;
+        </p>
     </footer>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
-
     <script>
+        // Current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        /* =========================
-           MOBILE MENU
-        ========================== */
+        // Smooth navigation
+        document.querySelectorAll('nav a, #mobile-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
 
-        const menuBtn = document.getElementById("menuBtn");
-        const mobileMenu = document.getElementById("mobileMenu");
+                if (target) {
+                    e.preventDefault();
 
-        menuBtn.addEventListener("click", () => {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
 
-            mobileMenu.classList.toggle("show");
-
-        });
-
-
-        /* Close mobile menu after clicking */
-
-        document.querySelectorAll("#mobileMenu a").forEach(link => {
-
-            link.addEventListener("click", () => {
-
-                mobileMenu.classList.remove("show");
-
-            });
-
-        });
-
-
-        /* =========================
-           SCROLL REVEAL
-        ========================== */
-
-        const revealElements =
-            document.querySelectorAll(".reveal");
-
-        const revealOnScroll = () => {
-
-            revealElements.forEach(element => {
-
-                const windowHeight =
-                    window.innerHeight;
-
-                const elementTop =
-                    element.getBoundingClientRect().top;
-
-                if (elementTop < windowHeight - 80) {
-
-                    element.classList.add("active");
-
+                    document.getElementById('mobile-nav').classList.add('hidden');
+                    document.getElementById('mobile-nav').classList.remove('show');
                 }
-
             });
+        });
 
+        // Mobile menu
+        const menuButton = document.getElementById('menu-button');
+        const mobileNav = document.getElementById('mobile-nav');
+
+        menuButton.addEventListener('click', function () {
+            mobileNav.classList.toggle('hidden');
+            mobileNav.classList.toggle('show');
+        });
+
+        // Scroll reveal
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
         };
 
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-        window.addEventListener(
-            "scroll",
-            revealOnScroll
-        );
-
-        revealOnScroll();
-
-
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
     </script>
 
 </body>
-
 </html>
